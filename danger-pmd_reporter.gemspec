@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ['aabbcc.double@gmail.com']
   spec.description   = %q{A short description of danger-pmd_reporter.}
   spec.summary       = %q{A longer description of danger-pmd_reporter.}
-  spec.homepage      = 'https://github.com/Shakhzod Ikromov/danger-pmd_reporter'
+  spec.homepage      = 'https://github.com/aabbcc-double/danger-pmd_reporter'
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files`.split($/)
@@ -19,6 +19,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_runtime_dependency 'danger-plugin-api', '~> 1.0'
+  spec.add_runtime_dependency 'nokogiri'
 
   # General ruby development
   spec.add_development_dependency 'bundler', '~> 1.3'
