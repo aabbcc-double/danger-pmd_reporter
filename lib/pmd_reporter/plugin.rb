@@ -24,11 +24,17 @@ module Danger
     # Defaults to "app/build/reports/pmd/pmd.xml"
     # @return   [String]
     attr_accessor :report_file
+
+    # Root of project. 
+    # Defaults to Dir.pwd
+    # @return [String]
+    attr_accessor :project_root
     
     # Parse report file and warn to danger
     # @return [Array<String>]
     def lint
       report_file = @report_file || "app/build/reports/pmd/pmd.xml"
+      project_root = @project_root || Dir.pwd
 
       puts report_file
       doc = File.open(report_file) { |f| Nokogiri::XML(f) }
@@ -36,7 +42,7 @@ module Danger
         file.xpath("//violation").each { |violation| 
           warning_text = violation.content
           warning_line = violation.attr("beginline")
-          warning_file = file.attr("name")
+          warning_file = file.attr("name").sub(project_root, "")
 
           warn(warning_text, file: warning_file, line: warning_line) 
         }
