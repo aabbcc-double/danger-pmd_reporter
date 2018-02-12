@@ -26,7 +26,7 @@ module Danger
     attr_accessor :report_file
 
     # Root of project. 
-    # Defaults to Dir.pwd
+    # Defaults to Dir.pwd + "/"
     # @return [String]
     attr_accessor :project_root
     
@@ -42,7 +42,7 @@ module Danger
         file.xpath("//violation").each { |violation| 
           warning_text = violation.content
           warning_line = violation.attr("beginline")
-          warning_file = file.attr("name").sub(project_root, "")
+          warning_file = file.attr("name").sub(project_root.concat("/"), "")
 
           warn(warning_text, file: warning_file, line: warning_line) 
         }
