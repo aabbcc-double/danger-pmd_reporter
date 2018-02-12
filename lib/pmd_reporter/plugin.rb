@@ -1,3 +1,5 @@
+require 'nokogiri'
+
 module Danger
   # This is your plugin class. Any attributes or methods you expose here will
   # be available from within your Dangerfile.
@@ -18,16 +20,28 @@ module Danger
   #
   class DangerPmdReporter < Plugin
 
-    # An attribute that you can read/write from your Dangerfile
-    #
-    # @return   [Array<String>]
-    attr_accessor :my_attribute
+    # Actual generated XML report file.
+    # Defaults to "app/build/reports/pmd/pmd.xml"
+    # @return   [String]
+    attr_accessor :report_file
+    
+    # Parse report file and warn to danger
+    # @return [Array<String>]
+    def lint
+      warn "What?"
+      report_file = @report_file || "app/build/reports/pmd/pmd.xml"
 
-    # A method that you can call from your Dangerfile
-    # @return   [Array<String>]
-    #
-    def warn_on_mondays
-      warn 'Trying to merge code on a Monday' if Date.today.wday == 1
+      puts report_file
+      doc = File.open(report_file) { |f| Nokogiri::XML(f) }
+      doc.xpath("//file").each { |file| 
+        puts file
+      }
+    end
+
+    # Ok
+    # @return [Void]
+    def what
+      warn "What?"
     end
   end
 end
