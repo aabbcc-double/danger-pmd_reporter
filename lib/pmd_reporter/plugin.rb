@@ -42,7 +42,7 @@ module Danger
         file.xpath("//violation").each { |violation| 
           warning_text = violation.content
           warning_line = violation.attr("beginline")
-          warning_file = file.attr("name").sub(project_root.concat("/"), "")
+          warning_file = file.attr("name").sub(project_root + "/", "")
 
           warn(warning_text, file: warning_file, line: warning_line) 
         }
