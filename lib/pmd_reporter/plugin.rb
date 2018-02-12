@@ -28,20 +28,19 @@ module Danger
     # Parse report file and warn to danger
     # @return [Array<String>]
     def lint
-      warn "What?"
       report_file = @report_file || "app/build/reports/pmd/pmd.xml"
 
       puts report_file
       doc = File.open(report_file) { |f| Nokogiri::XML(f) }
       doc.xpath("//file").each { |file| 
-        puts file
-      }
-    end
+        file.xpath("//violation").each { |violation| 
+          warning_text = violation.content
+          warning_line = violation.attr("beginline")
+          warning_file = file.attr("name")
 
-    # Ok
-    # @return [Void]
-    def what
-      warn "What?"
+          warn(warning_text, file: warning_file, line: warning_line) 
+        }
+      }
     end
   end
 end
